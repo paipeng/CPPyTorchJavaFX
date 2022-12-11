@@ -1,5 +1,6 @@
 package com.paipeng.cppytorch.view;
 
+import com.paipeng.cppytorch.util.PytorchUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -65,15 +66,22 @@ public class CPPyTorchPane extends BasePane {
         multipleSelectionModel.setSelectionMode(SelectionMode.SINGLE);
         multipleSelectionModel.selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> changed, String oldVal, String newVal) {
-                String selItems = "";
+                String selectedModel = "";
                 ObservableList<String> selected = modelListView.getSelectionModel().getSelectedItems();
 
                 for (int i = 0; i < selected.size(); i++) {
-                    selItems += "\n      " + selected.get(i);
+                    selectedModel = selected.get(i);
                 }
 
 
-                logger.trace("selected: " + selItems);
+                logger.trace("selected: " + selectedModel);
+
+                try {
+                    String pwd =System.getProperty("user.dir");
+                    PytorchUtil.getInstance().init(pwd + File.separator + "models" + File.separator + selectedModel, true);
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
             }
         });
     }
