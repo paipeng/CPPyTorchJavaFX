@@ -10,7 +10,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane prefHeight="600.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paipeng.cppytorch.controllers.MainViewController">
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TabPane?>
+<?import com.paipeng.cppytorch.view.CPPyTorchPane?>
+<BorderPane prefHeight="600.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paipeng.cppytorch.controllers.MainViewController">
     <top>
         <HBox>
             <Label minHeight="-Infinity" prefHeight="24.0" text="%hello">
@@ -37,7 +41,7 @@
 
     </left>
     <center>
-        <AnchorPane prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml">
+        <AnchorPane prefHeight="600.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml">
             <StackPane fx:id="stackPane">
                 <children>
                     <ImageView fx:id="previewImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" />
@@ -50,7 +54,22 @@
         </AnchorPane>
     </center>
     <right>
+        <TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/17"
+                 xmlns:fx="http://www.w3.org/2001/XInclude">
+            <tabs>
+                <Tab text="%cppytorch_pane">
+                    <ScrollPane layoutX="0.0" layoutY="0.0" maxWidth="310.0" prefWidth="310.0">
+                        <content>
+                            <CPPyTorchPane fx:id="cpPyTorchPane" minWidth="100"/>
 
+                        </content>
+                        <padding>
+                            <Insets left="00.0" top="0.0"/>
+                        </padding>
+                    </ScrollPane>
+                </Tab>
+            </tabs>
+        </TabPane>
     </right>
     <bottom>
 

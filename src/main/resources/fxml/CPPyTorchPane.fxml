@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.paipeng.cppytorch.view.CPPyTorchPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<fx:root type="CPPyTorchPane" xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.paipeng.cppytorch.view.CPPyTorchPane">
+
+    <VBox minHeight="0.0" minWidth="0.0" prefHeight="768.0" prefWidth="280.0">
+        <HBox>
+            <ListView fx:id="modelListView" prefWidth="280.0">
+
+            </ListView>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <Label text="%class_count" prefWidth="120" prefHeight="26"/>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <TextField fx:id="classCountTextField" prefWidth="200.0" prefHeight="26" editable="false">
+                <font>
+                    <Font size="12.0"/>
+                </font>
+            </TextField>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+
+        <HBox>
+            <Button fx:id="predictButton" prefWidth="280.0" text="%predict"/>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+
+        <HBox>
+            <ImageView fx:id="processedImageView" fitHeight="270.0" fitWidth="180.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <image>
+                    <Image url="/images/logo.png" />
+                </image>
+            </ImageView>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <!--
+
+        <HBox>
+            <Label text="%dotcode_detected_rotate" prefWidth="40" prefHeight="26"/>
+            <TextField fx:id="detectedRotateTextField" prefWidth="160.0" prefHeight="26" editable="false"/>
+
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <Label text="%dotcode_rescale" prefWidth="50" prefHeight="26"/>
+            <Slider fx:id="rescaleSlider" prefWidth="150" prefHeight="26" min="0.1" max="5" />
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <Label text="%dotcode_threshold" prefWidth="50" prefHeight="26"/>
+            <Slider fx:id="thresholdSlider" prefWidth="150" prefHeight="26" min="0.0" max="255.0" />
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        <HBox>
+            <Label text="%dotcode_erosion" prefWidth="50" prefHeight="26"/>
+            <Slider fx:id="erosionSlider" prefWidth="150" prefHeight="26" min="1" max="9" />
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+        -->
+    </VBox>
+</fx:root>
