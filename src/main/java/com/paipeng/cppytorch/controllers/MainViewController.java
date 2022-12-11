@@ -1,6 +1,7 @@
 package com.paipeng.cppytorch.controllers;
 
 import com.paipeng.cppytorch.util.ImageUtil;
+import com.paipeng.cppytorch.view.CPPyTorchPane;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -39,10 +40,21 @@ public class MainViewController  implements Initializable {
     @FXML
     private TextField inputTextField;
 
+    @FXML
+    private CPPyTorchPane cpPyTorchPane;
+
+    private BufferedImage bufferedImage;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         previewImageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/images/logo.png"))));
 
+        cpPyTorchPane.setCpPyTorchPaneInterface(new CPPyTorchPane.CPPyTorchPaneInterface() {
+            @Override
+            public BufferedImage getBufferedImage() {
+                return bufferedImage;
+            }
+        });
         selectImageButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -62,7 +74,7 @@ public class MainViewController  implements Initializable {
         if (file != null) {
             logger.trace("selected image file: " + file.getAbsolutePath());
             inputTextField.setText(file.getAbsolutePath());
-            BufferedImage bufferedImage = ImageUtil.readImage(file);
+            bufferedImage = ImageUtil.readImage(file);
             if (bufferedImage != null) {
                 previewImageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
             }

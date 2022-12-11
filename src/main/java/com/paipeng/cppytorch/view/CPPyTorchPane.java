@@ -1,5 +1,9 @@
 package com.paipeng.cppytorch.view;
 
+import ai.djl.modality.Classifications;
+import ai.djl.modality.cv.Image;
+import ai.djl.modality.cv.ImageFactory;
+import ai.djl.translate.TranslateException;
 import com.paipeng.cppytorch.util.PytorchUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,11 +30,19 @@ public class CPPyTorchPane extends BasePane {
     @FXML
     private ListView modelListView;
 
+    private CPPyTorchPaneInterface cpPyTorchPaneInterface;
+
+
+    public void setCpPyTorchPaneInterface(CPPyTorchPaneInterface cpPyTorchPaneInterface) {
+        this.cpPyTorchPaneInterface = cpPyTorchPaneInterface;
+    }
+
     public CPPyTorchPane() {
         super();
 
         initView();
     }
+
 
     @Override
     protected void initView() {
@@ -51,7 +63,7 @@ public class CPPyTorchPane extends BasePane {
         predictButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                doDecode(cpPyTorchPaneInterface.getBufferedImage());
             }
         });
 
@@ -88,6 +100,15 @@ public class CPPyTorchPane extends BasePane {
 
     @Override
     protected void doDecode(BufferedImage bufferedImage) {
+        Image img = ImageFactory.getInstance().fromImage(bufferedImage);
+        Classifications classifications = null;
+        try {
+            classifications = PytorchUtil.getInstance().predict(img);
+            logger.debug(classifications.toString());
+        } catch (TranslateException e) {
+            logger.error(e.getMessage());
+        }
+
 
     }
 
@@ -112,5 +133,9 @@ public class CPPyTorchPane extends BasePane {
             models.add(file.getName());
         }
         return models;
+    }
+
+    public interface CPPyTorchPaneInterface {
+        BufferedImage getBufferedImage();
     }
 }

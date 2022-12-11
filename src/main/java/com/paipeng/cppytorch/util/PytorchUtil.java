@@ -54,7 +54,7 @@ public class PytorchUtil {
                 public Classifications processOutput(TranslatorContext ctx, NDList list) {
                     // Create a Classifications with the output probabilities
                     NDArray probabilities = list.singletonOrThrow().softmax(0);
-                    List<String> classNames = IntStream.range(0, 13).mapToObj(String::valueOf).collect(Collectors.toList());
+                    List<String> classNames = IntStream.range(0, 3).mapToObj(String::valueOf).collect(Collectors.toList());
                     return new Classifications(classNames, probabilities);
                 }
 
@@ -75,13 +75,7 @@ public class PytorchUtil {
                             new float[]{0.229f, 0.224f, 0.225f}))
                     .optApplySoftmax(true)
                     .build();
-
         }
-
-
-
-
-
         Criteria<Image, Classifications> criteria = Criteria.builder()
                 .setTypes(Image.class, Classifications.class)
                 .optModelPath(Paths.get(modelPath))
