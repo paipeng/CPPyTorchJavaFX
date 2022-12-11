@@ -4,6 +4,7 @@ import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.Image;
 import ai.djl.modality.cv.ImageFactory;
 import ai.djl.translate.TranslateException;
+import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.util.PytorchUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,6 +19,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -63,7 +65,18 @@ public class CPPyTorchPane extends BasePane {
         predictButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                doDecode(cpPyTorchPaneInterface.getBufferedImage());
+                BufferedImage bufferedImage = cpPyTorchPaneInterface.getBufferedImage();
+                if (bufferedImage == null) {
+                    String imagePath = cpPyTorchPaneInterface.getImagePath();
+                    try {
+                        bufferedImage = ImageUtil.readImage(new File(imagePath));
+                    } catch (IOException e) {
+                        logger.error(e.getMessage());
+                    }
+                }
+                if (bufferedImage != null) {
+                    doDecode(bufferedImage);
+                }
             }
         });
 
@@ -137,5 +150,6 @@ public class CPPyTorchPane extends BasePane {
 
     public interface CPPyTorchPaneInterface {
         BufferedImage getBufferedImage();
+        String getImagePath();
     }
 }

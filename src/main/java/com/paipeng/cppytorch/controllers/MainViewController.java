@@ -2,6 +2,7 @@ package com.paipeng.cppytorch.controllers;
 
 import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.view.CPPyTorchPane;
+import com.paipeng.cppytorch.view.ImageListPane;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -38,13 +40,20 @@ public class MainViewController  implements Initializable {
     private Button selectImageButton;
 
     @FXML
+    private Button selectImageFolderButton;
+    
+    @FXML
     private TextField inputTextField;
 
     @FXML
     private CPPyTorchPane cpPyTorchPane;
 
+    @FXML
+    private ImageListPane imageListPane;
+
     private BufferedImage bufferedImage;
 
+    private String imagePath;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         previewImageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/images/logo.png"))));
@@ -53,6 +62,21 @@ public class MainViewController  implements Initializable {
             @Override
             public BufferedImage getBufferedImage() {
                 return bufferedImage;
+            }
+
+            @Override
+            public String getImagePath() {
+                return imagePath;
+            }
+        });
+
+
+        imageListPane.setImageListPaneInterface(new ImageListPane.ImageListPaneInterface() {
+            @Override
+            public void updateImageView(ImageView imageView, String filePath) {
+                logger.debug("updateImageView: " + filePath);
+                imagePath = filePath;
+                previewImageView.setImage(imageView.getImage());
             }
         });
         selectImageButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -65,6 +89,25 @@ public class MainViewController  implements Initializable {
                 }
             }
         });
+
+        selectImageFolderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                selectImageFolder();
+            }
+        });
+    }
+
+    private void selectImageFolder() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Open Resource File");
+
+        File selectedFolder = directoryChooser.showDialog(stage);
+        if (selectedFolder != null) {
+            logger.debug("selectedFolder: " + selectedFolder);
+
+            imageListPane.setSelectedImageFolder(selectedFolder.getAbsolutePath());
+        }
     }
 
     private void selectImage() throws IOException {
