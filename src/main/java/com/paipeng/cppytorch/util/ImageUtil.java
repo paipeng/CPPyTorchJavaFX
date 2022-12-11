@@ -3,6 +3,7 @@ package com.paipeng.cppytorch.util;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -20,6 +21,10 @@ public class ImageUtil {
         }
 
         return null;
+    }
+
+    public static BufferedImage readImage(File file) throws IOException {
+        return ImageIO.read(file);
     }
 
     public static BufferedImage cropBufferedImage(BufferedImage bufferedImage, int x, int y, int width, int height) {
