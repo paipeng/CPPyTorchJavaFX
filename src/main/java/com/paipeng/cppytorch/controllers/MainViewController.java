@@ -64,7 +64,7 @@ public class MainViewController  implements Initializable {
             inputTextField.setText(file.getAbsolutePath());
             BufferedImage bufferedImage = ImageUtil.readImage(file);
             if (bufferedImage != null) {
-                previewImageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+                previewImageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
             }
         }
     }
