@@ -61,6 +61,7 @@ public class PytorchUtil {
                     //bufferedImage = ImageUtil.convert(array.toByteArray(), (int)array.getShape().get(1), (int)array.getShape().get(0));
                     logger.debug("array size: " + array.getShape().get(1) + "-" + array.getShape().get(0));
 
+                    //array = NDImageUtils.randomResizedCrop(array, 224, 224, 0.3, 0.5, 0.9, 1.1);
                     array = NDImageUtils.resize(array, 224, 224);
                     logger.debug("array size: " + array.getShape().get(1) + "-" + array.getShape().get(0));
                     //bufferedImage = ImageUtil.convert(array.toByteArray(), (int)array.getShape().get(1), (int)array.getShape().get(0));
