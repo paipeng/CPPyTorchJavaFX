@@ -8,6 +8,10 @@ import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.Point;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,4 +63,12 @@ public class ImageUtil {
         graphics2D.dispose();
         return resizedImage;
     }
+
+
+    public static BufferedImage convert(byte[] data, int width, int height) {
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        img.setData(Raster.createRaster(img.getSampleModel(), new DataBufferByte(data, width * height), new Point()));
+        return img;
+    }
+
 }

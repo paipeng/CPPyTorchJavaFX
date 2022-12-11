@@ -5,6 +5,7 @@ import ai.djl.inference.Predictor;
 import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.Image;
 import ai.djl.modality.cv.transform.Normalize;
+import ai.djl.modality.cv.transform.Resize;
 import ai.djl.modality.cv.transform.ToTensor;
 import ai.djl.modality.cv.translator.ImageClassificationTranslator;
 import ai.djl.modality.cv.util.NDImageUtils;
@@ -18,6 +19,8 @@ import ai.djl.translate.Batchifier;
 import ai.djl.translate.TranslateException;
 import ai.djl.translate.Translator;
 import ai.djl.translate.TranslatorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -26,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class PytorchUtil {
+    private static Logger logger = LoggerFactory.getLogger(PytorchUtil.class);
     private static ZooModel model;
 
 
@@ -47,7 +51,26 @@ public class PytorchUtil {
                 public NDList processInput(TranslatorContext ctx, Image input) {
                     // Convert Image to NDArray
                     NDArray array = input.toNDArray(ctx.getNDManager(), Image.Flag.GRAYSCALE);
-                    return new NDList(NDImageUtils.toTensor(array));
+                    //BufferedImage bufferedImage = ImageUtil.convert(array.toByteArray(), (int)array.getShape().get(1), (int)array.getShape().get(0));
+                    logger.debug("array size: " + array.getShape().get(1) + "-" + array.getShape().get(0));
+                    // preprocess
+                    //array = new CenterCrop(500, 400).transform(array);
+                    //array = new RandomResizedCrop(224, 224, 128.0/500, 128.0/500, 1.0, 1.0).transform(array);
+
+                    array = NDImageUtils.centerCrop(array, 128, 128);
+                    //bufferedImage = ImageUtil.convert(array.toByteArray(), (int)array.getShape().get(1), (int)array.getShape().get(0));
+                    logger.debug("array size: " + array.getShape().get(1) + "-" + array.getShape().get(0));
+
+                    array = NDImageUtils.resize(array, 224, 224);
+                    logger.debug("array size: " + array.getShape().get(1) + "-" + array.getShape().get(0));
+                    //bufferedImage = ImageUtil.convert(array.toByteArray(), (int)array.getShape().get(1), (int)array.getShape().get(0));
+
+                    logger.debug(array.toDebugString());
+
+                    array = NDImageUtils.toTensor(array);
+
+                    logger.debug(array.toDebugString());
+                    return new NDList(array);
                 }
 
                 @Override
@@ -67,7 +90,7 @@ public class PytorchUtil {
             };
         } else {
             translator = ImageClassificationTranslator.builder()
-                    //.addTransform(new Resize(28))
+                    .addTransform(new Resize(28))
                     //.addTransform(new CenterCrop(224, 224))
                     .addTransform(new ToTensor())
                     .addTransform(new Normalize(
