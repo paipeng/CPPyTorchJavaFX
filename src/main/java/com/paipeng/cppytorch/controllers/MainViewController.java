@@ -3,7 +3,7 @@ package com.paipeng.cppytorch.controllers;
 import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.view.CPPyTorchPane;
 import com.paipeng.cppytorch.view.ImageListPane;
-import javafx.embed.swing.SwingFXUtils;
+import com.paipeng.cppytorch.view.PreviewPane;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,19 +29,17 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class MainViewController  implements Initializable {
+public class MainViewController implements Initializable {
     public static Logger logger = LoggerFactory.getLogger(MainViewController.class);
     private static Stage stage;
     private static final String FXML_FILE = "/fxml/MainViewController.fxml";
 
     @FXML
-    private ImageView previewImageView;
-    @FXML
     private Button selectImageButton;
 
     @FXML
     private Button selectImageFolderButton;
-    
+
     @FXML
     private TextField inputTextField;
 
@@ -51,12 +49,15 @@ public class MainViewController  implements Initializable {
     @FXML
     private ImageListPane imageListPane;
 
+    @FXML
+    private PreviewPane previewPane;
+
     private BufferedImage bufferedImage;
 
     private String imagePath;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        previewImageView.setImage(new Image(Objects.requireNonNull(MainViewController.class.getResourceAsStream("/images/logo.png"))));
 
         cpPyTorchPane.setCpPyTorchPaneInterface(new CPPyTorchPane.CPPyTorchPaneInterface() {
             @Override
@@ -76,7 +77,7 @@ public class MainViewController  implements Initializable {
             public void updateImageView(ImageView imageView, String filePath) {
                 logger.debug("updateImageView: " + filePath);
                 imagePath = filePath;
-                previewImageView.setImage(imageView.getImage());
+                previewPane.setPreviewImage(imageView.getImage());
             }
         });
         selectImageButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -119,7 +120,7 @@ public class MainViewController  implements Initializable {
             inputTextField.setText(file.getAbsolutePath());
             bufferedImage = ImageUtil.readImage(file);
             if (bufferedImage != null) {
-                previewImageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
+                previewPane.setPreviewImage(ImageUtil.convertToFxImage(bufferedImage));
             }
         }
     }

@@ -35,6 +35,7 @@ public abstract class BasePane extends Pane {
             loader.setResources(resources);
             loader.load(this.getClass().getResourceAsStream(fileName));
         } catch (IOException e) {
+            logger.error(e.getMessage());
             throw new RuntimeException(e);
         }
     }

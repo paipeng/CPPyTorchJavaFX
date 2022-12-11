@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.paipeng.cppytorch.view.ImageListPane?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 <?import com.paipeng.cppytorch.view.listview.ImageListView?>
+<?import javafx.scene.layout.*?>
 <fx:root type="ImageListPane" xmlns="http://javafx.com/javafx/17"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.paipeng.cppytorch.view.ImageListPane">
     <AnchorPane prefWidth="220" prefHeight="200">
-        <ImageListView fx:id="imageListView" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+        <ImageListView fx:id="imageListView" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
     </AnchorPane>
 </fx:root>
