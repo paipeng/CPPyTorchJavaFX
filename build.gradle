@@ -20,7 +20,7 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.media', 'javafx.graphics']
 }
 
-group 'com.paipeng'
+group 'com.paipeng.cppytorch'
 version '1.0.1'
 
 repositories {
@@ -59,7 +59,7 @@ tasks.withType(JavaCompile) {
 }
 
 
-mainClassName = 'com.paipeng.javafxapp.AppApplication'
+mainClassName = 'com.paipeng.cppytorch.AppApplication'
 project.configurations.implementation.setCanBeResolved(true)
 task fatJar(type: Jar) {
     println "my fatjar"

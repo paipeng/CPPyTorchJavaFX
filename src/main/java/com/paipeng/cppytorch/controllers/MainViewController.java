@@ -1,4 +1,4 @@
-package com.paipeng.javafxapp.controllers;
+package com.paipeng.cppytorch.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

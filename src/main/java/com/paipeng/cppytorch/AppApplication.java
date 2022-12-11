@@ -1,6 +1,6 @@
-package com.paipeng.javafxapp;
+package com.paipeng.cppytorch;
 
-import com.paipeng.javafxapp.controllers.MainViewController;
+import com.paipeng.cppytorch.controllers.MainViewController;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.stage.Stage;
