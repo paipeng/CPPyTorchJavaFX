@@ -1,0 +1,112 @@
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+    }
+}
+
+plugins {
+    id 'java-library'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+
+javafx {
+    version = '17' // Specify javafx sdk version
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.swing', 'javafx.media', 'javafx.graphics']
+}
+
+group 'com.paipeng'
+version '1.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+
+
+javadoc {
+    options.addStringOption('encoding', 'UTF-8')
+}
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+dependencies {
+    api group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
+    api group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.22'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+
+compileJava {
+    options.fork = true
+    //options.forkOptions.executable = "${System.properties['java.home']}/../bin/javac" // assumes that javac is on PATH
+    //options.compilerArgs << "-XDignore.symbol.file"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+
+mainClassName = 'com.paipeng.javafxapp.AppApplication'
+project.configurations.implementation.setCanBeResolved(true)
+task fatJar(type: Jar) {
+    println "my fatjar"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes 'Main-Class' : mainClassName,
+                'Class-Path': configurations.implementation.collect {"$it.name"}.join(' ')
+    }
+    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from {
+        configurations.implementation.collect {
+            it.isDirectory() ? it : ((it.getName().contains(".dylib"))? it: zipTree(it)) } }
+
+    from ("libs") {
+        into ("libs")
+    }
+
+    with jar
+}
+
+
+def fatJarInputFile = 'build/libs/JavaFx-all-' + project.version.toString() + '.jar'
+def proguardOutputFile = 'out/obfuscated/JavaFx-all-' + project.version.toString() + '.jar'
+sourceCompatibility = 11
+targetCompatibility = 11
+
+// for more details, see: http://proguard.sourceforge.net/manual/gradle.html
+task proguard(type: proguard.gradle.ProGuardTask, dependsOn: classes) {
+
+    // make all runtime-dependencies available while obfruscating
+    //configurations.runtime.resolve().each {
+    //    libraryjars file(it.getAbsolutePath())
+    //}
+
+    //injars project.sourceSets.main.output
+    println fatJarInputFile
+    injars fatJarInputFile
+    println proguardOutputFile
+    outjars proguardOutputFile
+
+    libraryjars project.sourceSets.main.compileClasspath
+
+    configuration 'proguard.conf'
+
+}
+
+test {
+    useJUnitPlatform()
+}
