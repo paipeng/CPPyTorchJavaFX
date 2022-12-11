@@ -13,7 +13,7 @@
 
     <VBox minHeight="0.0" minWidth="0.0" prefHeight="768.0" prefWidth="280.0">
         <HBox>
-            <ListView fx:id="modelListView" prefWidth="280.0">
+            <ListView fx:id="modelListView" prefWidth="280.0" prefHeight="150.0">
 
             </ListView>
             <padding>
@@ -45,26 +45,21 @@
         </HBox>
 
         <HBox>
-            <ImageView fx:id="processedImageView" fitHeight="270.0" fitWidth="180.0" pickOnBounds="true"
-                       preserveRatio="true">
-                <image>
-                    <Image url="/images/logo.png" />
-                </image>
-            </ImageView>
+            <Label text="%predict_result" prefWidth="140" prefHeight="26"/>
+
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </HBox>
+
+        <HBox>
+            <TextArea fx:id="predictResultTextArea" prefWidth="240.0" prefHeight="100" editable="false"/>
+
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </padding>
         </HBox>
         <!--
-
-        <HBox>
-            <Label text="%dotcode_detected_rotate" prefWidth="40" prefHeight="26"/>
-            <TextField fx:id="detectedRotateTextField" prefWidth="160.0" prefHeight="26" editable="false"/>
-
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-        </HBox>
         <HBox>
             <Label text="%dotcode_rescale" prefWidth="50" prefHeight="26"/>
             <Slider fx:id="rescaleSlider" prefWidth="150" prefHeight="26" min="0.1" max="5" />

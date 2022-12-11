@@ -4,6 +4,7 @@ import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.view.CPPyTorchPane;
 import com.paipeng.cppytorch.view.ImageListPane;
 import com.paipeng.cppytorch.view.PreviewPane;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -78,6 +79,8 @@ public class MainViewController implements Initializable {
                 logger.debug("updateImageView: " + filePath);
                 imagePath = filePath;
                 previewPane.setPreviewImage(imageView.getImage());
+                bufferedImage = SwingFXUtils.fromFXImage(imageView.getImage(), null);
+                cpPyTorchPane.predict(bufferedImage);
             }
         });
         selectImageButton.setOnAction(new EventHandler<ActionEvent>() {

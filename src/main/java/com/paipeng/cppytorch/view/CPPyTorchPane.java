@@ -13,6 +13,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 
 import java.awt.Rectangle;
@@ -20,8 +22,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class CPPyTorchPane extends BasePane {
@@ -31,6 +31,9 @@ public class CPPyTorchPane extends BasePane {
     private Button predictButton;
     @FXML
     private ListView modelListView;
+
+    @FXML
+    private TextArea predictResultTextArea;
 
     private CPPyTorchPaneInterface cpPyTorchPaneInterface;
 
@@ -102,7 +105,7 @@ public class CPPyTorchPane extends BasePane {
                 logger.trace("selected: " + selectedModel);
 
                 try {
-                    String pwd =System.getProperty("user.dir");
+                    String pwd = System.getProperty("user.dir");
                     PytorchUtil.getInstance().init(pwd + File.separator + "models" + File.separator + selectedModel, true);
                 } catch (Exception e) {
                     logger.error(e.getMessage());
@@ -118,11 +121,24 @@ public class CPPyTorchPane extends BasePane {
         try {
             classifications = PytorchUtil.getInstance().predict(img);
             logger.debug(classifications.toString());
+
+            predictResultTextArea.setText(classifications.toString());
         } catch (TranslateException e) {
             logger.error(e.getMessage());
         }
+    }
 
+    public void predict(BufferedImage bufferedImage) {
+        Image img = ImageFactory.getInstance().fromImage(bufferedImage);
+        Classifications classifications = null;
+        try {
+            classifications = PytorchUtil.getInstance().predict(img);
+            logger.debug(classifications.toString());
 
+            predictResultTextArea.setText(classifications.toString());
+        } catch (TranslateException e) {
+            logger.error(e.getMessage());
+        }
     }
 
     @Override
@@ -131,7 +147,7 @@ public class CPPyTorchPane extends BasePane {
     }
 
     private ObservableList<String> readModels() {
-        String pwd =System.getProperty("user.dir");
+        String pwd = System.getProperty("user.dir");
         logger.trace("readModels under: " + pwd);
 
         File dir = new File(pwd + File.separator + "models");
@@ -150,6 +166,7 @@ public class CPPyTorchPane extends BasePane {
 
     public interface CPPyTorchPaneInterface {
         BufferedImage getBufferedImage();
+
         String getImagePath();
     }
 }
