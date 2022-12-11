@@ -63,8 +63,8 @@ public class ImageListView extends ListView {
                                 if (bufferedImage != null) {
                                     imageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
                                 }
-                                imageView.setFitHeight(180);
-                                imageView.setFitWidth(180);
+                                imageView.setFitHeight(190);
+                                imageView.setFitWidth(190);
                             }
                             setGraphic(imageView);
                         }

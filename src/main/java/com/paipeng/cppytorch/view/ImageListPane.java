@@ -1,9 +1,11 @@
 package com.paipeng.cppytorch.view;
 
 import com.paipeng.cppytorch.util.CommonUtil;
+import com.paipeng.cppytorch.util.SleepAsynchronTaskUtil;
 import com.paipeng.cppytorch.view.listview.ImageListView;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -42,6 +44,21 @@ public class ImageListPane extends BasePane {
             @Override
             public void updateImageView(ImageView imageView, String filePath) {
                 imageListPaneInterface.updateImageView(imageView, filePath);
+            }
+        });
+
+
+        SleepAsynchronTaskUtil.startTask(200, () -> {
+            logger.trace("update tableview now");
+
+            Pane parentPane = (Pane) getParent();
+            if (parentPane != null) {
+                logger.trace("parentPane size: " + parentPane.getWidth() + "-" + parentPane.getHeight());
+
+                //imageListView.setPrefWidth(parentPane.getWidth());
+                imageListView.setPrefHeight(parentPane.getHeight() - 100);
+                //imageListView.setMinWidth(parentPane.getWidth());
+                imageListView.setMinHeight(parentPane.getHeight() - 100);
             }
         });
     }
