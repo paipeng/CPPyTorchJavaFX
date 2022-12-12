@@ -17,6 +17,14 @@ public abstract class BasePane extends Pane {
     protected static Logger logger;
     protected static int count = 0;
 
+    protected static final String[] filters = {
+            ".jpeg",
+            ".bmp",
+            ".jpg",
+            ".png",
+            ".tif",
+            ".tiff"
+    };
     private static final String PREFIX = File.separator + "fxml" + File.separator;
 
     public BasePane() {

@@ -14,7 +14,12 @@ public class ImageGroupListView extends BaseImageListView {
     public void setImageFiles(String imageFolder, File[] files) {
         ObservableList<String> models = FXCollections.observableArrayList();
         for (File file : files) {
-            models.add(imageFolder + File.separator + file.getName());
+            logger.debug("file: " + file.getAbsolutePath());
+            if (imageFolder != null) {
+                models.add(imageFolder + File.separator + file.getName());
+            } else {
+                models.add(file.getAbsolutePath());
+            }
         }
         setItems(models);
     }

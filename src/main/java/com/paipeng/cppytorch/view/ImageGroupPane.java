@@ -12,14 +12,7 @@ public class ImageGroupPane extends BasePane {
 
     @FXML
     private ImageGroupListView imageGroupListView;
-    private static final String[] filters = {
-            ".jpeg",
-            ".bmp",
-            ".jpg",
-            ".png",
-            ".tif",
-            ".tiff"
-    };
+
     private String imageFolder;
 
     public ImageGroupPane() {
@@ -43,14 +36,20 @@ public class ImageGroupPane extends BasePane {
 
 
     private void initImageListView() {
+        String[] folders = CommonUtil.getSubFolders(this.imageFolder);
 
-        File[] files = CommonUtil.getFiles(this.imageFolder, filters);
-
-        for (File file : files) {
-            logger.debug(file.getAbsolutePath());
+        File[] files = new File[folders.length];
+        int index = 0;
+        for (String folder : folders) {
+            logger.debug(folder);
+            File[] fs = CommonUtil.getFiles(this.imageFolder + File.separator + folder, filters);
+            if (fs != null && fs.length > 0) {
+                files[index] = fs[0];
+                index++;
+            }
         }
 
-        imageGroupListView.setImageFiles(this.imageFolder, files);
+        imageGroupListView.setImageFiles(null, files);
     }
 
 }

@@ -14,14 +14,7 @@ import java.io.File;
 public class ImageListPane extends BasePane {
     @FXML
     private ImageListView imageListView;
-    private static final String[] filters = {
-            ".jpeg",
-            ".bmp",
-            ".jpg",
-            ".png",
-            ".tif",
-            ".tiff"
-    };
+
     private String imageFolder;
 
     private ImageListPaneInterface imageListPaneInterface;
@@ -56,7 +49,7 @@ public class ImageListPane extends BasePane {
                 logger.trace("parentPane size: " + parentPane.getWidth() + "-" + parentPane.getHeight());
 
                 //imageListView.setPrefWidth(parentPane.getWidth());
-                imageListView.setPrefHeight(parentPane.getHeight() - 100);
+                imageListView.setPrefHeight(parentPane.getHeight() - 620);
                 //imageListView.setMinWidth(parentPane.getWidth());
                 imageListView.setMinHeight(parentPane.getHeight() - 100);
             }
@@ -79,13 +72,10 @@ public class ImageListPane extends BasePane {
     }
 
     private void initImageListView() {
-
         File[] files = CommonUtil.getFiles(this.imageFolder, filters);
-
         for (File file : files) {
             logger.debug(file.getAbsolutePath());
         }
-
         imageListView.setImageFiles(this.imageFolder, files);
     }
 
