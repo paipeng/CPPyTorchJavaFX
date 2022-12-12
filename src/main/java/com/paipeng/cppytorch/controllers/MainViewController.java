@@ -86,8 +86,12 @@ public class MainViewController implements Initializable {
                 if (imageFolder != null) {
                     logger.debug("selectedFolder: " + imageFolder);
                     imageListPane.setSelectedImageFolder(imageFolder);
-                    imageGroupPane.setSelectedImageFolder(imageFolder);
                 }
+            }
+
+            @Override
+            public void selectGroupFolder(String groupFolder) {
+                imageGroupPane.setSelectedImageFolder(groupFolder);
             }
         });
 

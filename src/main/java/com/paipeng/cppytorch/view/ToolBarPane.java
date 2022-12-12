@@ -81,7 +81,15 @@ public class ToolBarPane extends BasePane{
         selectGroupFolderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                Node node = (Node) event.getSource();
+                Stage thisStage = (Stage) node.getScene().getWindow();
 
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Open Resource File");
+
+                File selectedFolder = directoryChooser.showDialog(thisStage);
+
+                toolBarPaneInterface.selectGroupFolder(selectedFolder.getAbsolutePath());
             }
         });
     }
@@ -99,5 +107,6 @@ public class ToolBarPane extends BasePane{
     public interface ToolBarPaneInterface {
         void selectImage(File file);
         void selectImageFolder(String imageFolder);
+        void selectGroupFolder(String groupFolder);
     }
 }
