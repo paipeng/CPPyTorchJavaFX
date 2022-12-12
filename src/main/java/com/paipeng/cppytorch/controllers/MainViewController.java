@@ -1,10 +1,7 @@
 package com.paipeng.cppytorch.controllers;
 
 import com.paipeng.cppytorch.util.ImageUtil;
-import com.paipeng.cppytorch.view.CPPyTorchPane;
-import com.paipeng.cppytorch.view.ImageGroupPane;
-import com.paipeng.cppytorch.view.ImageListPane;
-import com.paipeng.cppytorch.view.PreviewPane;
+import com.paipeng.cppytorch.view.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,14 +33,6 @@ public class MainViewController implements Initializable {
     private static Stage stage;
     private static final String FXML_FILE = "/fxml/MainViewController.fxml";
 
-    @FXML
-    private Button selectImageButton;
-
-    @FXML
-    private Button selectImageFolderButton;
-
-    @FXML
-    private TextField inputTextField;
 
     @FXML
     private CPPyTorchPane cpPyTorchPane;
@@ -57,7 +46,8 @@ public class MainViewController implements Initializable {
     @FXML
     private ImageGroupPane imageGroupPane;
 
-    @FXML Button selectGroupFolderButton;
+    @FXML
+    private ToolBarPane toolBarPane;
 
     private BufferedImage bufferedImage;
 
@@ -78,6 +68,29 @@ public class MainViewController implements Initializable {
             }
         });
 
+        toolBarPane.setToolBarPaneInterface(new ToolBarPane.ToolBarPaneInterface() {
+            @Override
+            public void selectImage(File file) {
+                try {
+                    bufferedImage = ImageUtil.readImage(file);
+                    if (bufferedImage != null) {
+                        previewPane.setPreviewImage(ImageUtil.convertToFxImage(bufferedImage));
+                    }
+                } catch (IOException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+
+            @Override
+            public void selectImageFolder(String imageFolder) {
+                if (imageFolder != null) {
+                    logger.debug("selectedFolder: " + imageFolder);
+                    imageListPane.setSelectedImageFolder(imageFolder);
+                    imageGroupPane.setSelectedImageFolder(imageFolder);
+                }
+            }
+        });
+
 
         imageListPane.setImageListPaneInterface(new ImageListPane.ImageListPaneInterface() {
             @Override
@@ -89,53 +102,7 @@ public class MainViewController implements Initializable {
                 cpPyTorchPane.predict(bufferedImage);
             }
         });
-        selectImageButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    selectImage();
-                } catch (IOException e) {
-                    logger.error(e.getMessage());
-                }
-            }
-        });
-
-        selectImageFolderButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                selectImageFolder();
-            }
-        });
     }
-
-    private void selectImageFolder() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Open Resource File");
-
-        File selectedFolder = directoryChooser.showDialog(stage);
-        if (selectedFolder != null) {
-            logger.debug("selectedFolder: " + selectedFolder);
-
-            imageListPane.setSelectedImageFolder(selectedFolder.getAbsolutePath());
-
-            imageGroupPane.setSelectedImageFolder(selectedFolder.getAbsolutePath());
-        }
-    }
-
-    private void selectImage() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-            logger.trace("selected image file: " + file.getAbsolutePath());
-            inputTextField.setText(file.getAbsolutePath());
-            bufferedImage = ImageUtil.readImage(file);
-            if (bufferedImage != null) {
-                previewPane.setPreviewImage(ImageUtil.convertToFxImage(bufferedImage));
-            }
-        }
-    }
-
 
     public static void start() {
         logger.trace("start");
