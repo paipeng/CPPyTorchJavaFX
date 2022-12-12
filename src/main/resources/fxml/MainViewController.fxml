@@ -7,7 +7,8 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import com.paipeng.cppytorch.view.PreviewPane?>
-<BorderPane prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<?import com.paipeng.cppytorch.view.ImageGroupPane?>
+<BorderPane prefHeight="1024.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.paipeng.cppytorch.controllers.MainViewController">
     <top>
         <HBox maxHeight="50">
@@ -28,6 +29,11 @@
                 </HBox.margin>
             </Button>
             <Button fx:id="selectImageFolderButton" text="%select_image_folder">
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <Button fx:id="selectGroupFolderButton" text="%select_group_folder">
                 <HBox.margin>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </HBox.margin>
@@ -66,13 +72,14 @@
         </TabPane>
     </right>
     <bottom>
-        <HBox maxHeight="50">
-        <Label minHeight="-Infinity" prefHeight="24.0" text="%version">
-            <HBox.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </HBox.margin>
-        </Label>
+        <HBox>
+            <ImageGroupPane fx:id="imageGroupPane"/>
+            <padding>
+                <Insets left="220.0" top="0.0"/>
+            </padding>
+
         </HBox>
+
 
     </bottom>
 </BorderPane>

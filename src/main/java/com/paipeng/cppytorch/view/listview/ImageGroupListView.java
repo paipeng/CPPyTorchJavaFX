@@ -5,12 +5,10 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 
-public class ImageListView extends BaseImageListView {
-
-    public ImageListView() {
+public class ImageGroupListView extends BaseImageListView {
+    public ImageGroupListView() {
         super();
     }
-
 
     @Override
     public void setImageFiles(String imageFolder, File[] files) {

@@ -2,6 +2,7 @@ package com.paipeng.cppytorch.controllers;
 
 import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.view.CPPyTorchPane;
+import com.paipeng.cppytorch.view.ImageGroupPane;
 import com.paipeng.cppytorch.view.ImageListPane;
 import com.paipeng.cppytorch.view.PreviewPane;
 import javafx.embed.swing.SwingFXUtils;
@@ -52,6 +53,11 @@ public class MainViewController implements Initializable {
 
     @FXML
     private PreviewPane previewPane;
+
+    @FXML
+    private ImageGroupPane imageGroupPane;
+
+    @FXML Button selectGroupFolderButton;
 
     private BufferedImage bufferedImage;
 
@@ -111,6 +117,8 @@ public class MainViewController implements Initializable {
             logger.debug("selectedFolder: " + selectedFolder);
 
             imageListPane.setSelectedImageFolder(selectedFolder.getAbsolutePath());
+
+            imageGroupPane.setSelectedImageFolder(selectedFolder.getAbsolutePath());
         }
     }
 
