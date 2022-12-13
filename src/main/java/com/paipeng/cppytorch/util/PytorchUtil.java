@@ -114,11 +114,14 @@ public class PytorchUtil {
 
     public Classifications predict(Image image) throws TranslateException {
         //Image img = ImageFactory.getInstance().from.fromUrl("https://raw.githubusercontent.com/pytorch/hub/master/images/dog.jpg");
-        image.getWrappedImage();
-
-        Predictor<Image, Classifications> predictor = model.newPredictor();
-        Classifications classifications = predictor.predict(image);
-        return classifications;
+        if (model != null) {
+            image.getWrappedImage();
+            Predictor<Image, Classifications> predictor = model.newPredictor();
+            Classifications classifications = predictor.predict(image);
+            return classifications;
+        } else {
+            return null;
+        }
     }
 
 

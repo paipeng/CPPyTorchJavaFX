@@ -133,9 +133,10 @@ public class CPPyTorchPane extends BasePane {
         Classifications classifications = null;
         try {
             classifications = PytorchUtil.getInstance().predict(img);
-            logger.debug(classifications.toString());
-
-            predictResultTextArea.setText(classifications.toString());
+            if (classifications != null) {
+                logger.debug(classifications.toString());
+                predictResultTextArea.setText(classifications.toString());
+            }
         } catch (TranslateException e) {
             logger.error(e.getMessage());
         }
