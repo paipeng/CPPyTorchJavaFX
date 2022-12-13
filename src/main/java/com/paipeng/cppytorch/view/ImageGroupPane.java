@@ -2,7 +2,10 @@ package com.paipeng.cppytorch.view;
 
 import com.paipeng.cppytorch.util.CommonUtil;
 import com.paipeng.cppytorch.view.listview.ImageGroupListView;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -13,10 +16,34 @@ public class ImageGroupPane extends BasePane {
     @FXML
     private ImageGroupListView imageGroupListView;
 
+    @FXML
+    private Button zoomOutButton;
+    @FXML
+    private Button zoomInButton;
+
     private String imageFolder;
 
     public ImageGroupPane() {
+        super();
+        initView();
+    }
 
+    @Override
+    protected void initView() {
+        super.initView();
+        zoomOutButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                imageGroupListView.setZoomOut();
+            }
+        });
+
+        zoomInButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                imageGroupListView.setZoomIn();
+            }
+        });
     }
 
     @Override

@@ -3,11 +3,45 @@
 <?import com.paipeng.cppytorch.view.ImageGroupPane?>
 <?import com.paipeng.cppytorch.view.listview.ImageGroupListView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
 <fx:root type="ImageGroupPane" xmlns="http://javafx.com/javafx/17"
          xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.paipeng.cppytorch.view.ImageGroupPane">
-    <AnchorPane prefWidth="820" prefHeight="220">
-        <ImageGroupListView fx:id="imageGroupListView" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                       AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" orientation="HORIZONTAL"/>
-    </AnchorPane>
+    <HBox prefWidth="820" prefHeight="220">
+        <ImageGroupListView fx:id="imageGroupListView" prefWidth="820" orientation="HORIZONTAL"/>
+
+        <VBox>
+            <Button fx:id="zoomInButton">
+                <graphic>
+                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="/images/icons/zoom_in.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+
+            <Button fx:id="zoomOutButton">
+                <graphic>
+                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="/images/icons/zoom_out.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <HBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </HBox.margin>
+            </Button>
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </VBox>
+    </HBox>
 </fx:root>

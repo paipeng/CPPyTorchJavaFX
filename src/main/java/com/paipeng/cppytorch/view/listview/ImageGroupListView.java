@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.io.File;
 
 public class ImageGroupListView extends BaseImageListView {
+
     public ImageGroupListView() {
         super();
     }
@@ -23,5 +24,7 @@ public class ImageGroupListView extends BaseImageListView {
         }
         setItems(models);
     }
+
+
 
 }

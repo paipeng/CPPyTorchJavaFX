@@ -1,6 +1,7 @@
 package com.paipeng.cppytorch.view.listview;
 
 import com.paipeng.cppytorch.util.ImageUtil;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -16,6 +17,8 @@ import java.io.IOException;
 
 public class BaseImageListView extends ListView {
     protected Logger logger;
+
+    protected double cropFactor = 1;
 
     protected ImageListView.ImageListViewInterface imageListViewInterface;
 
@@ -48,13 +51,23 @@ public class BaseImageListView extends ListView {
                             setGraphic(null);
                         } else {
                             if(imageView != null){
+                                logger.debug("update imageView " + cropFactor);
                                 BufferedImage bufferedImage = null;
                                 try {
                                     bufferedImage = ImageUtil.readImage(new File(item));
+                                    if (cropFactor != 1.0) {
+                                        int cropWidth = (int)(bufferedImage.getWidth()* cropFactor);
+                                        int cropHeight = (int)(bufferedImage.getHeight() * cropFactor);
+                                        int cropOffsetX = (int)((bufferedImage.getWidth() - cropWidth)/2.0);
+                                        int cropOffsetY = (int)((bufferedImage.getHeight() - cropHeight)/2.0);
+
+                                        bufferedImage = ImageUtil.cropBufferedImage(bufferedImage, cropOffsetX, cropOffsetY, cropWidth, cropHeight);
+                                    }
                                 } catch (IOException e) {
                                     logger.error(e.getMessage());
                                 }
                                 if (bufferedImage != null) {
+                                    logger.debug("bufferedImage size: " + bufferedImage.getWidth() + "-" + bufferedImage.getHeight());
                                     imageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
                                 }
                                 imageView.setFitHeight(190);
@@ -96,5 +109,18 @@ public class BaseImageListView extends ListView {
 
     public interface ImageListViewInterface {
         void updateImageView(ImageView imageView, String filePath);
+    }
+
+    public void setZoomIn() {
+        cropFactor -= 0.1;
+        refresh();
+    }
+
+    public void setZoomOut() {
+        cropFactor += 0.1;
+        if (cropFactor > 1) {
+            cropFactor = 1;
+        }
+        refresh();
     }
 }
