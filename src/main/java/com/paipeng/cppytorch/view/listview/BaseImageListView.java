@@ -5,6 +5,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
@@ -52,24 +53,30 @@ public class BaseImageListView extends ListView {
                         } else {
                             if(imageView != null){
                                 logger.debug("update imageView " + cropFactor);
-                                BufferedImage bufferedImage = null;
-                                try {
-                                    bufferedImage = ImageUtil.readImage(new File(item));
-                                    if (cropFactor != 1.0) {
-                                        int cropWidth = (int)(bufferedImage.getWidth()* cropFactor);
-                                        int cropHeight = (int)(bufferedImage.getHeight() * cropFactor);
-                                        int cropOffsetX = (int)((bufferedImage.getWidth() - cropWidth)/2.0);
-                                        int cropOffsetY = (int)((bufferedImage.getHeight() - cropHeight)/2.0);
+                                if (item.startsWith("http")) {
+                                    Image image = new Image(item);
+                                    imageView.setImage(image);
+                                } else {
+                                    BufferedImage bufferedImage = null;
+                                    try {
+                                        bufferedImage = ImageUtil.readImage(new File(item));
+                                        if (cropFactor != 1.0) {
+                                            int cropWidth = (int)(bufferedImage.getWidth()* cropFactor);
+                                            int cropHeight = (int)(bufferedImage.getHeight() * cropFactor);
+                                            int cropOffsetX = (int)((bufferedImage.getWidth() - cropWidth)/2.0);
+                                            int cropOffsetY = (int)((bufferedImage.getHeight() - cropHeight)/2.0);
 
-                                        bufferedImage = ImageUtil.cropBufferedImage(bufferedImage, cropOffsetX, cropOffsetY, cropWidth, cropHeight);
+                                            bufferedImage = ImageUtil.cropBufferedImage(bufferedImage, cropOffsetX, cropOffsetY, cropWidth, cropHeight);
+                                        }
+                                    } catch (IOException e) {
+                                        logger.error(e.getMessage());
                                     }
-                                } catch (IOException e) {
-                                    logger.error(e.getMessage());
+                                    if (bufferedImage != null) {
+                                        logger.debug("bufferedImage size: " + bufferedImage.getWidth() + "-" + bufferedImage.getHeight());
+                                        imageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
+                                    }
                                 }
-                                if (bufferedImage != null) {
-                                    logger.debug("bufferedImage size: " + bufferedImage.getWidth() + "-" + bufferedImage.getHeight());
-                                    imageView.setImage(ImageUtil.convertToFxImage(bufferedImage));
-                                }
+
                                 imageView.setFitHeight(190);
                                 imageView.setFitWidth(190);
                             }

@@ -3,6 +3,7 @@ package com.paipeng.cppytorch.view;
 import com.paipeng.cppytorch.util.CommonUtil;
 import com.paipeng.cppytorch.util.SleepAsynchronTaskUtil;
 import com.paipeng.cppytorch.view.listview.ImageListView;
+import com.s2icode.okhttp.api.dto.NanogridDecoderDTO;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Pane;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.List;
 
 public class ImageListPane extends BasePane {
     @FXML
@@ -77,6 +79,11 @@ public class ImageListPane extends BasePane {
             logger.debug(file.getAbsolutePath());
         }
         imageListView.setImageFiles(this.imageFolder, files);
+    }
+
+    public void searched(List<NanogridDecoderDTO> nanogridDecoders) {
+        imageListView.setSearchedNanogridDecoders(nanogridDecoders);
+
     }
 
     public interface ImageListPaneInterface {

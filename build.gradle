@@ -40,6 +40,8 @@ tasks.withType(JavaCompile) {
 
 
 dependencies {
+    implementation project(':s2i_java_okhttp_restclient')
+
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
     implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.22'
 

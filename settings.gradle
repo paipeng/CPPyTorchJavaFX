@@ -1,2 +1,6 @@
 rootProject.name = 'CPPyTorchJavaFX'
 
+include 's2i_java_okhttp_restclient'
+
+
+project(':s2i_java_okhttp_restclient').projectDir = new File('../../JavaEE/s2i_java_okhttp_restclient/')

@@ -2,6 +2,7 @@ package com.paipeng.cppytorch.controllers;
 
 import com.paipeng.cppytorch.util.ImageUtil;
 import com.paipeng.cppytorch.view.*;
+import com.s2icode.okhttp.api.dto.NanogridDecoderDTO;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -92,6 +94,12 @@ public class MainViewController implements Initializable {
             @Override
             public void selectGroupFolder(String groupFolder) {
                 imageGroupPane.setSelectedImageFolder(groupFolder);
+            }
+
+            @Override
+            public void searched(List<NanogridDecoderDTO> nanogridDecoders) {
+                imageListPane.searched(nanogridDecoders);
+
             }
         });
 
