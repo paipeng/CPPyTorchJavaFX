@@ -7,7 +7,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +29,24 @@ public class BaseImageListView extends ListView {
         super();
         logger = LoggerFactory.getLogger(this.getClass());
         setCustomCellFactory();
+
+        setOnDragOver(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                logger.debug("onDragOver");
+                if (event.getDragboard().hasImage()) {
+                    event.acceptTransferModes(TransferMode.ANY);
+                }
+            }
+        });
+
+        setOnDragDropped(new EventHandler<DragEvent>() {
+            @Override
+            public void handle(DragEvent event) {
+                logger.debug("setOnDragDropped");
+
+            }
+        });
     }
 
     public void setImageListViewInterface(ImageListViewInterface imageListViewInterface) {
@@ -79,6 +99,26 @@ public class BaseImageListView extends ListView {
 
                                 imageView.setFitHeight(190);
                                 imageView.setFitWidth(190);
+
+                                imageView.setOnDragOver(new EventHandler<DragEvent>() {
+                                    @Override
+                                    public void handle(DragEvent event) {
+                                        logger.debug("onDragOver");
+                                        if (event.getDragboard().hasImage()) {
+                                            event.acceptTransferModes(TransferMode.ANY);
+                                        }
+                                    }
+                                });
+
+                                imageView.setOnDragDropped(new EventHandler<DragEvent>() {
+                                    @Override
+                                    public void handle(DragEvent event) {
+                                        logger.debug("setOnDragDropped");
+                                        Image image = event.getDragboard().getImage();
+                                        imageView.setImage(image);
+
+                                    }
+                                });
                             }
                             setGraphic(imageView);
                         }

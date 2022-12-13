@@ -8,6 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -42,6 +46,20 @@ public class PreviewPane extends BasePane {
         imageHeight = previewImageView.getFitHeight();
 
         previewImageView.preserveRatioProperty().set(true);
+
+
+        previewImageView.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (previewImageView.getImage() != null) {
+                    Dragboard dragboard = previewImageView.startDragAndDrop(TransferMode.ANY);
+                    ClipboardContent clipboardContent = new ClipboardContent();
+                    clipboardContent.putImage(previewImageView.getImage());
+                    dragboard.setContent(clipboardContent);
+                }
+            }
+        });
+
         zoomInButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
